@@ -110,7 +110,7 @@ namespace InuranceAssignmentAPD03.Controllers
         }
 
 
-        public async Task SendMail()
+        public async Task SendMail(string amessage)
         {
  
             #region mail1
@@ -130,7 +130,7 @@ namespace InuranceAssignmentAPD03.Controllers
 
             MailMessage message = new MailMessage(from, to);
 
-            message.Body = "Ypu have Purchased" ;
+            message.Body = " " + amessage ;
             // Include some non-ASCII characters in body and subject.
             string someArrows = new string(new char[] { '\u2190', '\u2191', '\u2192', '\u2193' });
             message.Body += Environment.NewLine + someArrows;
@@ -163,7 +163,7 @@ namespace InuranceAssignmentAPD03.Controllers
             var email = await Email
                 .From(emailAddress: "TechnoSolutions0001@gmail.com")
                 .To(emailAddress: "kovlyn.reddy@gmail.com", name: "Kovlyn Reddy")
-                .Subject(subject: "Thanks for the Purchase !")
+                .Subject(subject: " " + amessage )
                 .Body(body: "Items Purchase =")
                 .SendAsync();
 

@@ -18,6 +18,7 @@ namespace InuranceAssignmentAPD03.Data
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Policy> Policies { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<Claim> Claims { get; set; }
     }

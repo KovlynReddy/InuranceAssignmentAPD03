@@ -1,0 +1,13 @@
+﻿@model InuranceAssignmentAPD03.Models.ApplicationViewModel
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Applicants.Email</h4>
+        <p class="card-text">@Model.SelectedPolicies.PolicyName</p>
+        <a href="#" class="" >@Model.Applications.Amount</a>
+
+        <a asp-action="ApproveApplication" asp-controller="Policy" asp-route-id="@Model.Applications.TransactionId" class="card-link">Approve</a>
+
+        <a asp-action="DenyApplication" asp-controller="Policy" asp-route-id="@Model.Applications.TransactionId" class="card-link">Deny</a>
+    </div>
+</div>

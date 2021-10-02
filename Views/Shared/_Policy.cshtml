@@ -1,0 +1,11 @@
+﻿@model InsuranceDLL.DataAccess.DomainModels.Policy
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@Model.PolicyName</h4>
+        <p class="card-text">@Model.PolicyDescription</p>
+        <a href="#" class="card-link">@Model.BaseCost</a>
+        <a asp-action="ViewPolicy" asp-controller="Policy" asp-route-id="@Model.PolicyId" class="card-link">View Policy</a>
+    </div>
+</div>
+    

@@ -51,6 +51,15 @@ namespace InuranceAssignmentAPD03.Data
             return entity;
         }
 
+        public Transaction AddTransaction(Transaction entity)
+        {
+            db.Transactions.Add(entity);
+
+            db.SaveChanges();
+
+            return entity;
+        }
+
         public User AddUser(User entity)
         {
             db.MyUsers.Add(entity);
@@ -96,6 +105,15 @@ namespace InuranceAssignmentAPD03.Data
             return entity;
         }
 
+        public Transaction DeleteTransaction(Transaction entity)
+        {
+            db.Transactions.Remove(entity);
+
+            db.SaveChanges();
+
+            return entity;
+        }
+
         public User DeleteUser(User entity)
         {
             db.MyUsers.Remove(entity);
@@ -121,6 +139,11 @@ namespace InuranceAssignmentAPD03.Data
         }
 
         public List<Profile> FilterProfiles(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Transaction> FilterTransactions(string query)
         {
             throw new NotImplementedException();
         }
@@ -160,6 +183,11 @@ namespace InuranceAssignmentAPD03.Data
             return db.Profiles.ToList();
         }
 
+        public List<Transaction> GetAllTransactions()
+        {
+            return db.Transactions.ToList();
+        }
+
         public List<User> GetAllUsers()
         {
             return db.MyUsers.ToList();
@@ -184,6 +212,16 @@ namespace InuranceAssignmentAPD03.Data
 
         public Profile GetProfile(string entity)
         { return db.Profiles.FirstOrDefault(m => m.ProfileId == entity); }
+
+        public Transaction GetTransaction(Transaction entity)
+        {
+            return db.Transactions.FirstOrDefault(m => m.TransactionId == entity.TransactionId);
+        }
+
+        public Transaction GetTransaction(string entity)
+        {
+            return db.Transactions.FirstOrDefault(m => m.TransactionId == entity);
+        }
 
         public User GetUser(User entity)
         { return db.MyUsers.FirstOrDefault(m => m.UserId == entity.UserId); }
@@ -235,6 +273,19 @@ namespace InuranceAssignmentAPD03.Data
         {
             var selectedentity = db.Profiles.FirstOrDefault(m => m.ProfileId == entity.ProfileId);
             selectedentity.ProfileId = entity.ProfileId;
+
+
+            db.Entry(selectedentity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            db.SaveChanges();
+
+            return selectedentity;
+        }
+
+        public Transaction UpdateTransaction(Transaction entity)
+        {
+            var selectedentity = db.Transactions.FirstOrDefault(m => m.TransactionId == entity.TransactionId);
+            selectedentity.Notes = entity.Notes;
 
 
             db.Entry(selectedentity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;

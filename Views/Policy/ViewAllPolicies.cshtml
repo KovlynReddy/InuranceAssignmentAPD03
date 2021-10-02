@@ -1,0 +1,10 @@
+﻿@model InuranceAssignmentAPD03.Models.ViewAllPoliciesViewModel
+
+@{
+    ViewData["Title"] = "ViewAllPolicies";
+}
+
+@foreach (var item in Model.Policies)
+{
+<partial name="_Policy" model="item"></partial>
+}

@@ -1,0 +1,57 @@
+﻿@model InuranceAssignmentAPD03.Models.CreatePolicyViewModel
+
+@{
+    ViewData["Title"] = "CreatePolicy";
+}
+
+<h1>CreatePolicy</h1>
+
+<h4>CreatePolicyViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreatePolicy">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
+            <div class="form-group">
+                <label asp-for="PolicyName" class="control-label"></label>
+                <input asp-for="PolicyName" class="form-control" />
+                <span asp-validation-for="PolicyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PolicyDescription" class="control-label"></label>
+                <input asp-for="PolicyDescription" class="form-control" />
+                <span asp-validation-for="PolicyDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BaseCost" class="control-label"></label>
+                <input asp-for="BaseCost" class="form-control" />
+                <span asp-validation-for="BaseCost" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="AverageAge" class="control-label"></label>
+                <input asp-for="AverageAge" class="form-control" />
+                <span asp-validation-for="AverageAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Constant" class="control-label"></label>
+                <input asp-for="Constant" class="form-control" />
+                <span asp-validation-for="Constant" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

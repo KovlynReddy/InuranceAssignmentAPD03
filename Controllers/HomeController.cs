@@ -41,6 +41,21 @@ namespace InuranceAssignmentAPD03.Controllers
 
             }
 
+
+            var matchedaccounts = db.GetAllAccounts().FirstOrDefault(m => m.UserId == matchedEmployees.UserId);
+
+            if (matchedaccounts == null || matchedaccounts == new InsuranceDLL.DataAccess.DomainModels.Account())
+            {
+                Account model = new Account();
+
+                model.AccountId = Guid.NewGuid().ToString();
+                model.UserId = matchedEmployees.UserId;
+                
+
+                db.AddAccount(model);
+
+            }
+
             return View();
         }
 
@@ -48,6 +63,8 @@ namespace InuranceAssignmentAPD03.Controllers
         {
             return View();
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
