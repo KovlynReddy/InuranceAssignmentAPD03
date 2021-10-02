@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using InsuranceDLL.DataAccess.DomainModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,12 @@ namespace InuranceAssignmentAPD03.Data
             : base(options)
         {
         }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Policy> Policies { get; set; }
+        public DbSet<Feature> Features { get; set; }
+        public DbSet<Claim> Claims { get; set; }
     }
 }
