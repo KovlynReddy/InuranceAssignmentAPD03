@@ -4,14 +4,16 @@ using InuranceAssignmentAPD03.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InuranceAssignmentAPD03.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211002104418_InitInsuraneDB")]
+    partial class InitInsuraneDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,12 +31,6 @@ namespace InuranceAssignmentAPD03.Data.Migrations
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Balance")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("id");
 
                     b.ToTable("Accounts");
@@ -47,31 +43,7 @@ namespace InuranceAssignmentAPD03.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ClaimId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PolicyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfileId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
@@ -86,20 +58,8 @@ namespace InuranceAssignmentAPD03.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateValid")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FeatureId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -113,23 +73,8 @@ namespace InuranceAssignmentAPD03.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AverageAge")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Constant")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MonthlyPremium")
-                        .HasColumnType("int");
-
                     b.Property<string>("PolicyId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Valid")
-                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -143,64 +88,7 @@ namespace InuranceAssignmentAPD03.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Cancer")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DOB")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DangerousWorkingEnviroment")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Diabeties")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DrinkAlcohol")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FamilyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FamilyMembers")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HeridataryDeseases")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Kids")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OnCronicDrugs")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OnPercesciptiveDrugs")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProfileId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Sinus")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SmokeCigerrets")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TerminalIllnesses")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TravelForWork")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
@@ -215,30 +103,15 @@ namespace InuranceAssignmentAPD03.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FamilyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FamilyMembers")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProfileId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TimeCreated")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
-                    b.ToTable("MyUsers");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -14,7 +14,7 @@ namespace InuranceAssignmentAPD03.Data
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> MyUsers { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Policy> Policies { get; set; }

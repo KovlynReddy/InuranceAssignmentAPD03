@@ -19,12 +19,16 @@ namespace InuranceAssignmentAPD03.Data
         {
             db.Accounts.Add(entity);
 
+            db.SaveChanges();
+
             return entity;
         }
 
         public Feature AddFeature(Feature entity)
         {
             db.Features.Add(entity);
+
+            db.SaveChanges();
 
             return entity;
         }
@@ -33,6 +37,8 @@ namespace InuranceAssignmentAPD03.Data
         {
             db.Policies.Add(entity);
 
+            db.SaveChanges();
+
             return entity;
         }
 
@@ -40,12 +46,16 @@ namespace InuranceAssignmentAPD03.Data
         {
             db.Profiles.Add(entity);
 
+            db.SaveChanges();
+
             return entity;
         }
 
         public User AddUser(User entity)
         {
-            db.Users.Add(entity);
+            db.MyUsers.Add(entity);
+
+            db.SaveChanges();
 
             return entity;
         }
@@ -54,12 +64,16 @@ namespace InuranceAssignmentAPD03.Data
         {
             db.Accounts.Remove(entity);
 
+            db.SaveChanges();
+
             return entity;
         }
 
         public Feature DeleteFeature(Feature entity)
         {
             db.Features.Remove(entity);
+
+            db.SaveChanges();
 
             return entity;
         }
@@ -68,6 +82,8 @@ namespace InuranceAssignmentAPD03.Data
         {
             db.Policies.Remove(entity);
 
+            db.SaveChanges();
+
             return entity;
         }
 
@@ -75,12 +91,16 @@ namespace InuranceAssignmentAPD03.Data
         {
             db.Profiles.Remove(entity);
 
+            db.SaveChanges();
+
             return entity;
         }
 
         public User DeleteUser(User entity)
         {
-            db.Users.Remove(entity);
+            db.MyUsers.Remove(entity);
+
+            db.SaveChanges();
 
             return entity;
         }
@@ -142,7 +162,7 @@ namespace InuranceAssignmentAPD03.Data
 
         public List<User> GetAllUsers()
         {
-            return db.Users.ToList();
+            return db.MyUsers.ToList();
         }
 
         public Feature GetFeature(Feature entity)
@@ -166,10 +186,10 @@ namespace InuranceAssignmentAPD03.Data
         { return db.Profiles.FirstOrDefault(m => m.ProfileId == entity); }
 
         public User GetUser(User entity)
-        { return db.Users.FirstOrDefault(m => m.UserId == entity.UserId); }
+        { return db.MyUsers.FirstOrDefault(m => m.UserId == entity.UserId); }
 
         public User GetUser(string entity)
-        { return db.Users.FirstOrDefault(m => m.UserId == entity); }
+        { return db.MyUsers.FirstOrDefault(m => m.UserId == entity); }
 
         public Account UpdateAccount(Account entity)
         {
@@ -226,7 +246,7 @@ namespace InuranceAssignmentAPD03.Data
 
         public User UpdateUser(User entity)
         {
-            var selectedentity = db.Users.FirstOrDefault(m => m.UserId == entity.UserId);
+            var selectedentity = db.MyUsers.FirstOrDefault(m => m.UserId == entity.UserId);
             selectedentity.UserId = entity.UserId;
 
             db.Entry(selectedentity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;

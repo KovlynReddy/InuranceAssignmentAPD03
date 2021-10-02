@@ -1,3 +1,4 @@
+using InsuranceDLL.DataAccess.Interface;
 using InuranceAssignmentAPD03.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,7 @@ namespace InuranceAssignmentAPD03
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddScoped<IInsuranceDB,InsuranceProccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
