@@ -112,12 +112,17 @@ namespace InuranceAssignmentAPD03.Controllers
             var transactions = db.GetAllTransactions().Where(m => m.AccountId == account.AccountId).ToList();
 
             int total = 0;
+            //var claims = db.GetAllClaims().Where(m => m.AccountId == account.AccountId).Where(m => m.Notes == "Approved").ToList();
 
             foreach (var item in transactions)
             {
                 total += item.Amount;
 
             }
+            //foreach (var item in claims)
+            //{
+            //    total += item.Cost;
+            //}
             account.Balance = total;
             db.UpdateAccount(account);
 
@@ -135,8 +140,8 @@ namespace InuranceAssignmentAPD03.Controllers
             var profile = db.GetAllProfiles().FirstOrDefault(m => m.UserId == user.UserId);
             var account = db.GetAllAccounts().FirstOrDefault(m => m.UserId == user.UserId);
 
-            var transactions = db.GetAllTransactions().Where(m => m.AccountId == account.AccountId).Where(m=>m.Notes=="Approved").ToList();
-            var claims = db.GetAllClaims().Where(m => m.AccountId == account.AccountId).Where(m=>m.Notes=="Approved").ToList();
+            var transactions = db.GetAllTransactions().Where(m => m.AccountId == account.AccountId).ToList();//.Where(m=>m.Notes=="Approved").ToList();
+            //var claims = db.GetAllClaims().Where(m => m.AccountId == account.AccountId).Where(m=>m.Notes=="Approved").ToList();
 
             int total = 0;
 
@@ -145,10 +150,10 @@ namespace InuranceAssignmentAPD03.Controllers
                 total += item.Amount;
 
             }
-            foreach (var item in claims)
-            {
-                total += item.Cost;
-            }
+            //foreach (var item in claims)
+            //{
+            //    total += item.Cost;
+            //}
             account.Balance = total;
             db.UpdateAccount(account);
 
