@@ -60,6 +60,15 @@ namespace InuranceAssignmentAPD03.Data
             return entity;
         }
 
+        public Claim AddClaim(Claim entity)
+        {
+            db.Claims.Add(entity);
+
+            db.SaveChanges();
+
+            return entity;
+        }
+
         public User AddUser(User entity)
         {
             db.MyUsers.Add(entity);
@@ -114,6 +123,15 @@ namespace InuranceAssignmentAPD03.Data
             return entity;
         }
 
+        public Claim DeleteClaim(Claim entity)
+        {
+            db.Claims.Remove(entity);
+
+            db.SaveChanges();
+
+            return entity;
+        }
+
         public User DeleteUser(User entity)
         {
             db.MyUsers.Remove(entity);
@@ -159,9 +177,7 @@ namespace InuranceAssignmentAPD03.Data
         }
 
         public Account GetAccount(string entity)
-        {
-            throw new NotImplementedException();
-        }
+        { return db.Accounts.FirstOrDefault(m => m.UserId == entity); }
 
         public List<Account> GetAllAccounts()
         {
@@ -211,7 +227,7 @@ namespace InuranceAssignmentAPD03.Data
         { return db.Profiles.FirstOrDefault(m => m.ProfileId == entity.ProfileId); }
 
         public Profile GetProfile(string entity)
-        { return db.Profiles.FirstOrDefault(m => m.ProfileId == entity); }
+        { return db.Profiles.FirstOrDefault(m => m.UserId == entity); }
 
         public Transaction GetTransaction(Transaction entity)
         {
@@ -221,6 +237,11 @@ namespace InuranceAssignmentAPD03.Data
         public Transaction GetTransaction(string entity)
         {
             return db.Transactions.FirstOrDefault(m => m.TransactionId == entity);
+        }
+
+        public Claim GetClaim(Claim entity)
+        {
+            return db.Claims.FirstOrDefault(m => m.ClaimId == entity.ClaimId);
         }
 
         public User GetUser(User entity)
@@ -297,6 +318,11 @@ namespace InuranceAssignmentAPD03.Data
             return selectedentity;
         }
 
+        public Claim UpdateTransaction(Claim entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public User UpdateUser(User entity)
         {
             var selectedentity = db.MyUsers.FirstOrDefault(m => m.UserId == entity.UserId);
@@ -307,6 +333,27 @@ namespace InuranceAssignmentAPD03.Data
             db.SaveChanges();
 
             return selectedentity;
+        }
+
+        List<Claim> IInsuranceDB.FilterClaims(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Claim> IInsuranceDB.GetAllClaims()
+        {
+            return db.Claims.ToList();
+
+        }
+
+        Claim IInsuranceDB.GetClaim(string entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Claim UpdateClaim(Claim entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

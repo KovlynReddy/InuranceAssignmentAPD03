@@ -101,7 +101,7 @@ namespace InuranceAssignmentAPD03.Controllers
             apply.UserId = selecteduser.UserId;
 
             Db.AddTransaction(apply);
-            
+
 
             return View(); }
 

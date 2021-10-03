@@ -105,13 +105,13 @@ namespace InuranceAssignmentAPD03.Controllers
         [HttpGet]
         public IActionResult ViewProfile(string id) {
 
-            var user = db.GetAllUsers().FirstOrDefault(m=>m.UserId == id) ;
-            var profile = db.GetAllProfiles().FirstOrDefault(m=>m.UserId == id) ;
-            var account = db.GetAllAccounts().FirstOrDefault(m=>m.UserId == id) ;
+            var user = db.GetAllUsers().FirstOrDefault(m => m.UserId == id);
+            var profile = db.GetAllProfiles().FirstOrDefault(m => m.UserId == id);
+            var account = db.GetAllAccounts().FirstOrDefault(m => m.UserId == id);
 
-            var transactions = db.GetAllTransactions().Where(m=>m.AccountId==account.AccountId).ToList();
+            var transactions = db.GetAllTransactions().Where(m => m.AccountId == account.AccountId).ToList();
 
-            int total = 0 ;
+            int total = 0;
 
             foreach (var item in transactions)
             {
@@ -131,13 +131,13 @@ namespace InuranceAssignmentAPD03.Controllers
         [HttpGet]
         public IActionResult ViewMyProfile() {
 
-            var user = db.GetAllUsers().FirstOrDefault(m=>m.Email == User.Identity.Name) ;
-            var profile = db.GetAllProfiles().FirstOrDefault(m=>m.UserId == user.UserId) ;
-            var account = db.GetAllAccounts().FirstOrDefault(m=>m.UserId == user.UserId) ;
+            var user = db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
+            var profile = db.GetAllProfiles().FirstOrDefault(m => m.UserId == user.UserId);
+            var account = db.GetAllAccounts().FirstOrDefault(m => m.UserId == user.UserId);
 
-            var transactions = db.GetAllTransactions().Where(m=>m.AccountId==account.AccountId).ToList();
+            var transactions = db.GetAllTransactions().Where(m => m.AccountId == account.AccountId).ToList();
 
-            int total = 0 ;
+            int total = 0;
 
             foreach (var item in transactions)
             {
@@ -152,13 +152,13 @@ namespace InuranceAssignmentAPD03.Controllers
             model.profile = profile;
             model.account = account;
 
-            return View("ViewProfile",model);
+            return View("ViewProfile", model);
         }
 
         // POST: AccountController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)  
+        public ActionResult Delete(int id, IFormCollection collection)
         {
             try
             {
@@ -170,10 +170,10 @@ namespace InuranceAssignmentAPD03.Controllers
             }
         }
         [HttpGet]
-        public IActionResult MakeClaim() { 
+        public IActionResult MakeClaim() {
             CreateClaimViewModel model = new CreateClaimViewModel();
             var selectedUser = db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
-            var policies = db.GetAllTransactions().Where(m=>m.UserId == selectedUser.UserId).Select(m=>m.PolicyId).Distinct().ToList();
+            var policies = db.GetAllTransactions().Where(m => m.UserId == selectedUser.UserId).Select(m => m.PolicyId).Distinct().ToList();
             model.Policies = db.GetAllPolicys().Where(m => policies.Contains(m.PolicyId)).ToList();
             return View(model); }
 
@@ -188,11 +188,11 @@ namespace InuranceAssignmentAPD03.Controllers
             transaction.AccountId = selectedaccount.AccountId;
             transaction.Amount = model.Cost;
             transaction.Notes = "UnapprovedClaim";
-            transaction.PolicyId = selectedpolicy.PolicyId ;
+            transaction.PolicyId = selectedpolicy.PolicyId;
             transaction.ProfileId = selectedprofile.ProfileId;
             transaction.TimeSent = DateTime.Now;
             transaction.TransactionId = Guid.NewGuid().ToString();
-            transaction.UserId = selecteduser.UserId; 
+            transaction.UserId = selecteduser.UserId;
 
             Claim claim = new Claim();
             claim.Notes = "Claim";
@@ -202,11 +202,14 @@ namespace InuranceAssignmentAPD03.Controllers
             claim.UserId = selecteduser.UserId;
             claim.ClaimId = Guid.NewGuid().ToString();
             claim.Cost = model.Cost;
-            claim.Description = model.Description; 
-            claim.AccountId =  selectedaccount.AccountId;
+            claim.Description = model.Description;
+            claim.AccountId = selectedaccount.AccountId;
 
-    
-            transaction.ClaimId = claim.ClaimId  ;
+
+            transaction.ClaimId = claim.ClaimId;
+
+            db.AddTransaction(transaction);
+            db.AddClaim(claim);
             return View(); }
 
         private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
@@ -229,6 +232,34 @@ namespace InuranceAssignmentAPD03.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult GetAllClaimApplications()
+        {
+            var selectedUser = db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
+
+            var applications = db.GetAllTransactions().Where(m => m.Notes == "UnapprovedClaim").ToList();
+            var claims = db.GetAllClaims().Where(m => m.Type == "Unapproved").ToList();
+
+            var claimpolicyids = applications.Select(m => m.PolicyId).Distinct().ToList();
+            var claimuserids = applications.Select(m => m.UserId).Distinct().ToList();
+
+            var policiess = db.GetAllPolicys().Where(m => claimpolicyids.Contains(m.PolicyId)).ToList();
+            var users = db.GetAllUsers().Where(m => claimuserids.Contains(m.UserId)).ToList();
+            var profiles = db.GetAllProfiles().Where(m => claimuserids.Contains(m.UserId)).ToList();
+            var accounts = db.GetAllAccounts().Where(m => claimuserids.Contains(m.UserId)).ToList();
+
+       
+
+            ViewAllClaimsViewModel model = new ViewAllClaimsViewModel();
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                var newcliam = new ClaimViewModel(applications[i], claims[i], users[i], profiles[i], accounts[i], policiess[i]);
+                model.Claims.Add(newcliam);
+                }
+
+            return View(model);
+    }
 
         public async Task SendMail(string amessage)
         {

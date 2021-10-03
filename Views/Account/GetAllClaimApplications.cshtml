@@ -1,0 +1,6 @@
+﻿@model InuranceAssignmentAPD03.Models.ViewAllClaimsViewModel
+
+@foreach (var item in Model.Claims)
+{
+    <partial   name="_ClaimView" model="item" />
+}

@@ -1,0 +1,19 @@
+﻿@model ClaimViewModel
+
+ <div class="jumbotron-fluid">
+    User Balance Balance :    @Model.account.Balance <br />
+    User Claim :    @Model.application.Amount  <br />
+    Application Status :    @Model.application.Notes  <br />
+    TimeSent :    @Model.application.TimeSent  <br />
+    Claim Reason :    @Model.claim.Description <br />
+    Claim Amount :    @Model.claim.Cost <br />
+    Claim Status :    @Model.claim.Notes <br />
+    Policy Name :    @Model.policy.PolicyName <br />
+    Policy Description :    @Model.policy.PolicyDescription <br />
+    Policy Base Cost :    @Model.policy.BaseCost <br />
+    Client Age :     @Model.profile.Age <br />
+    Client Email :    @Model.user.Email <br />
+     </div>
+ <a href="#" class=" btn btn-success">Approve</a>
+ <a href="#" class="btn btn-danger">Deny</a>
+ 
