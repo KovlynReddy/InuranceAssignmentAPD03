@@ -112,6 +112,8 @@ namespace InuranceAssignmentAPD03.Controllers
 
             application.Notes = "Approved";
 
+            // send email 
+
             Db.UpdateTransaction(application);
 
             return RedirectToAction("Index","Home");

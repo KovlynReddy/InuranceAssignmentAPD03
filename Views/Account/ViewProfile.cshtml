@@ -1,0 +1,12 @@
+﻿@model InuranceAssignmentAPD03.Models.ProfileViewModel
+
+@Model.user.Email<br/>
+@Model.account.Balance
+
+<form asp-action="DepositMoney" asp-controller="Account">
+    <input asp-for="depositAmount" />
+    <input asp-for="user.UserId" type="hidden" />
+    <input asp-for="profile.ProfileId" type="hidden" />
+    <input asp-for="account.AccountId" type="hidden" />
+    <input type="submit" name="name" value="Deposit" />
+</form>

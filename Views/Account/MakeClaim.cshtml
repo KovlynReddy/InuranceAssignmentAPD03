@@ -1,0 +1,62 @@
+﻿@model InuranceAssignmentAPD03.Models.CreateClaimViewModel
+
+@{
+    ViewData["Title"] = "MakeClaim";
+
+    List<SelectListItem> policies = new List<SelectListItem>();
+
+    if (Model != null && Model.Policies != null)
+    {
+
+        var allattendies = Model.Policies;
+        policies = allattendies.Select(a => new SelectListItem { Text = a.PolicyName, Value = a.PolicyId }).ToList();
+
+    }
+
+}
+
+<h1>MakeClaim</h1>
+
+<h4>CreateClaimViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MakeClaim">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+            <div class="form-group">
+                <label asp-for="PolicyId" class="control-label"></label>
+                <select asp-for="PolicyId" asp-items="policies" class="form-control" />
+                <span asp-validation-for="PolicyId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+
+                @Html.DropDownListFor(m => m.Description, new SelectListItem[]{
+                new SelectListItem() { Text = "Accident", Value = "Accident" },
+                new SelectListItem() { Text = "Desease", Value = "Desease" },
+                new SelectListItem() { Text = "Terminal", Value = "Terminal" },
+                new SelectListItem() { Text = "Suicide", Value = "Suicide" }})
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

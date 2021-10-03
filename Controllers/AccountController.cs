@@ -1,5 +1,8 @@
 ﻿using FluentEmail.Core;
 using FluentEmail.Smtp;
+using InsuranceDLL.DataAccess.DomainModels;
+using InsuranceDLL.DataAccess.Interface;
+using InuranceAssignmentAPD03.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,11 +12,18 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace InuranceAssignmentAPD03.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IInsuranceDB db;
+
+        public AccountController(IInsuranceDB db)
+        {
+            this.db = db;
+        }
         // GET: AccountController
         public ActionResult Index()
         {
@@ -74,10 +84,81 @@ namespace InuranceAssignmentAPD03.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult DepositMoney(ProfileViewModel model) {
+
+            InsuranceDLL.DataAccess.DomainModels.Transaction deposit = new InsuranceDLL.DataAccess.DomainModels.Transaction();
+            deposit.AccountId = model.account.AccountId;
+            deposit.Amount = model.depositAmount;
+            deposit.ClaimId = "Test"; // change
+            deposit.Notes = "Deposit";
+            deposit.PolicyId = "Test"; // change
+            deposit.ProfileId = model.profile.ProfileId;
+            deposit.TimeSent = DateTime.Now;
+            deposit.UserId = model.user.UserId;
+            deposit.TransactionId = Guid.NewGuid().ToString();
+
+            db.AddTransaction(deposit);
+
+            return View(); }
+
+        [HttpGet]
+        public IActionResult ViewProfile(string id) {
+
+            var user = db.GetAllUsers().FirstOrDefault(m=>m.UserId == id) ;
+            var profile = db.GetAllProfiles().FirstOrDefault(m=>m.UserId == id) ;
+            var account = db.GetAllAccounts().FirstOrDefault(m=>m.UserId == id) ;
+
+            var transactions = db.GetAllTransactions().Where(m=>m.AccountId==account.AccountId).ToList();
+
+            int total = 0 ;
+
+            foreach (var item in transactions)
+            {
+                total += item.Amount;
+
+            }
+            account.Balance = total;
+            db.UpdateAccount(account);
+
+            ProfileViewModel model = new ProfileViewModel();
+            model.user = user;
+            model.profile = profile;
+            model.account = account;
+
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ViewMyProfile() {
+
+            var user = db.GetAllUsers().FirstOrDefault(m=>m.Email == User.Identity.Name) ;
+            var profile = db.GetAllProfiles().FirstOrDefault(m=>m.UserId == user.UserId) ;
+            var account = db.GetAllAccounts().FirstOrDefault(m=>m.UserId == user.UserId) ;
+
+            var transactions = db.GetAllTransactions().Where(m=>m.AccountId==account.AccountId).ToList();
+
+            int total = 0 ;
+
+            foreach (var item in transactions)
+            {
+                total += item.Amount;
+
+            }
+            account.Balance = total;
+            db.UpdateAccount(account);
+
+            ProfileViewModel model = new ProfileViewModel();
+            model.user = user;
+            model.profile = profile;
+            model.account = account;
+
+            return View("ViewProfile",model);
+        }
+
         // POST: AccountController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, IFormCollection collection)  
         {
             try
             {
@@ -88,6 +169,45 @@ namespace InuranceAssignmentAPD03.Controllers
                 return View();
             }
         }
+        [HttpGet]
+        public IActionResult MakeClaim() { 
+            CreateClaimViewModel model = new CreateClaimViewModel();
+            var selectedUser = db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
+            var policies = db.GetAllTransactions().Where(m=>m.UserId == selectedUser.UserId).Select(m=>m.PolicyId).Distinct().ToList();
+            model.Policies = db.GetAllPolicys().Where(m => policies.Contains(m.PolicyId)).ToList();
+            return View(model); }
+
+        [HttpPost]
+        public IActionResult MakeClaim(CreateClaimViewModel model) {
+            var selecteduser = db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
+            var selectedprofile = db.GetAllProfiles().FirstOrDefault(m => m.UserId == selecteduser.UserId);
+            var selectedaccount = db.GetAllAccounts().FirstOrDefault(m => m.UserId == selecteduser.UserId);
+            var selectedpolicy = db.GetAllPolicys().FirstOrDefault(m => m.PolicyId == model.PolicyId);
+
+            InsuranceDLL.DataAccess.DomainModels.Transaction transaction = new InsuranceDLL.DataAccess.DomainModels.Transaction();
+            transaction.AccountId = selectedaccount.AccountId;
+            transaction.Amount = model.Cost;
+            transaction.Notes = "UnapprovedClaim";
+            transaction.PolicyId = selectedpolicy.PolicyId ;
+            transaction.ProfileId = selectedprofile.ProfileId;
+            transaction.TimeSent = DateTime.Now;
+            transaction.TransactionId = Guid.NewGuid().ToString();
+            transaction.UserId = selecteduser.UserId; 
+
+            Claim claim = new Claim();
+            claim.Notes = "Claim";
+            claim.PolicyId = selectedpolicy.PolicyId;
+            claim.ProfileId = selectedprofile.ProfileId;
+            claim.Type = "Unapproved";
+            claim.UserId = selecteduser.UserId;
+            claim.ClaimId = Guid.NewGuid().ToString();
+            claim.Cost = model.Cost;
+            claim.Description = model.Description; 
+            claim.AccountId =  selectedaccount.AccountId;
+
+    
+            transaction.ClaimId = claim.ClaimId  ;
+            return View(); }
 
         private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {

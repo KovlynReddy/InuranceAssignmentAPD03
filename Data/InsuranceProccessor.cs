@@ -233,6 +233,8 @@ namespace InuranceAssignmentAPD03.Data
         {
             var selectedentity = db.Accounts.FirstOrDefault(m => m.AccountId == entity.AccountId);
             selectedentity.AccountId = entity.AccountId;
+            selectedentity.Balance = entity.Balance;
+            selectedentity.UserId = entity.UserId;
 
             //selectedentity.Remarks = entity.EmployeeName;
 
