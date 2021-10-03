@@ -22,6 +22,12 @@ namespace InuranceAssignmentAPD03.Controllers
             this.db = db;
         }
 
+        [HttpGet]
+        public IActionResult ViewAllTransactions() { 
+
+            return View(db.GetAllTransactions()); 
+        }
+
         public IActionResult Index()
         {
             var Users = db.GetAllUsers();
@@ -39,6 +45,7 @@ namespace InuranceAssignmentAPD03.Controllers
 
                 db.AddUser(model);
 
+            matchedEmployees = Users.FirstOrDefault(m => m.UserId == UserName || m.Email == UserName);
             }
 
 

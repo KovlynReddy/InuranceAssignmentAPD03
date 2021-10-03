@@ -33,7 +33,7 @@ namespace InuranceAssignmentAPD03.Controllers
             return View();
         }
 
-        public IActionResult SendOutDebitOrders() 
+        public async Task<IActionResult> SendOutDebitOrders() 
         {
             var applications = db.GetAllTransactions().Where(m => m.Notes == "Approved").ToList();
 
@@ -50,10 +50,10 @@ namespace InuranceAssignmentAPD03.Controllers
 
             for (int i = 0; i < model.Applications.Count; i++)
             {
-                if (model.SelectedPolicies[i] != null && model.Applications[i] != null && model.Applicants[i] != null)
+                if ( model.Applications[i] != null && model.Applicants[i] != null)
                 {
 
-                    model.ApplicationModels.Add(new ApplicationViewModel(model.SelectedPolicies[i], model.Applications[i], model.Applicants[i]));
+                    model.ApplicationModels.Add(new ApplicationViewModel(model.SelectedPolicies.FirstOrDefault(m => m.PolicyId == applications.FirstOrDefault(k=>k.UserId == model.Applicants[i].UserId).PolicyId), model.Applications[i], model.Applicants[i]));
 
                 }
 
@@ -75,7 +75,7 @@ namespace InuranceAssignmentAPD03.Controllers
 
                 db.AddTransaction(deposit);
 
-                SendMail($"Thank you for your support of our bussiness in subscribing to the ",applicants.FirstOrDefault(m=>m.UserId==user.UserId).Email);
+                await SendMail($"Thank you for your support of our bussiness in subscribing to the for the amount of R {user.Amount} and your balance is : {selectedaccounts.FirstOrDefault(m=>m.UserId == user.UserId).Balance}",applicants.FirstOrDefault(m=>m.UserId==user.UserId).Email);
                 // send email
 
             }
@@ -154,10 +154,11 @@ namespace InuranceAssignmentAPD03.Controllers
             var email = await Email
                 .From(emailAddress: "TechnoSolutions0001@gmail.com")
                 .To(emailAddress: address, name: "Hi User")
-                .Subject(subject: " " + amessage)
-                .Body(body: "Policy Payment")
+                .Subject(subject: " Policy Payment " )
+                .Body(body: "Policy Payment \n" + amessage)
                 .SendAsync();
 
+            int result = 0;
             #endregion
         }
 

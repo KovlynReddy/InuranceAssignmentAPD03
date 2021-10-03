@@ -89,10 +89,10 @@ namespace InuranceAssignmentAPD03.Controllers
 
             InsuranceDLL.DataAccess.DomainModels.Transaction deposit = new InsuranceDLL.DataAccess.DomainModels.Transaction();
             deposit.AccountId = model.account.AccountId;
-            deposit.Amount = model.depositAmount;
+            deposit.Amount = (-1)*model.depositAmount;
             deposit.ClaimId = "Test"; // change
             deposit.Notes = "Deposit";
-            deposit.PolicyId = "Test"; // change
+            deposit.PolicyId = "Deposit"; // change
             deposit.ProfileId = model.profile.ProfileId;
             deposit.TimeSent = DateTime.Now;
             deposit.UserId = model.user.UserId;
@@ -135,7 +135,8 @@ namespace InuranceAssignmentAPD03.Controllers
             var profile = db.GetAllProfiles().FirstOrDefault(m => m.UserId == user.UserId);
             var account = db.GetAllAccounts().FirstOrDefault(m => m.UserId == user.UserId);
 
-            var transactions = db.GetAllTransactions().Where(m => m.AccountId == account.AccountId).ToList();
+            var transactions = db.GetAllTransactions().Where(m => m.AccountId == account.AccountId).Where(m=>m.Notes=="Approved").ToList();
+            var claims = db.GetAllClaims().Where(m => m.AccountId == account.AccountId).Where(m=>m.Notes=="Approved").ToList();
 
             int total = 0;
 
@@ -143,6 +144,10 @@ namespace InuranceAssignmentAPD03.Controllers
             {
                 total += item.Amount;
 
+            }
+            foreach (var item in claims)
+            {
+                total += item.Cost;
             }
             account.Balance = total;
             db.UpdateAccount(account);
@@ -260,6 +265,52 @@ namespace InuranceAssignmentAPD03.Controllers
 
             return View(model);
     }
+
+        [HttpGet]
+        public IActionResult ApproveApplication(string id)
+        {
+
+            var application = db.GetAllTransactions().FirstOrDefault(m => m.TransactionId == id);
+
+            application.Notes = "Approved";
+
+            // send email 
+
+            db.UpdateTransaction(application);
+
+            var claim = db.GetAllClaims().FirstOrDefault(m => m.ClaimId == application.ClaimId);
+
+            claim.Type = "Approved";
+            claim.Notes = "Approved";
+
+            db.UpdateClaim(claim);
+
+            return RedirectToAction("Index", "Home");
+
+        }
+
+        [HttpGet]
+        public IActionResult DenyApplication(string id)
+        {
+
+            var application = db.GetAllTransactions().FirstOrDefault(m => m.TransactionId == id);
+
+            application.Notes = "Denied";
+
+            var claim = db.GetAllClaims().FirstOrDefault(m=>m.ClaimId == application.ClaimId);
+
+            claim.Notes = "Denied";
+
+            db.UpdateClaim(claim);
+            // send email 
+
+            db.UpdateTransaction(application);
+
+            return RedirectToAction("Index", "Home");
+
+        }
+
+
 
         public async Task SendMail(string amessage, string address)
         {
