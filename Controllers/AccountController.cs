@@ -261,9 +261,9 @@ namespace InuranceAssignmentAPD03.Controllers
             return View(model);
     }
 
-        public async Task SendMail(string amessage)
+        public async Task SendMail(string amessage, string address)
         {
- 
+
             #region mail1
 
             SmtpClient client = new SmtpClient("smtp.gmail.com");
@@ -276,17 +276,17 @@ namespace InuranceAssignmentAPD03.Controllers
             MailAddress from = new MailAddress("TechnoSolutions0001@gmail.com",
                "Techno" + (char)0xD8 + "Solutions01", System.Text.Encoding.UTF8);
             // Set destinations for the email message.
-            MailAddress to = new MailAddress("kovlyn.reddy@gmail.com");
+            MailAddress to = new MailAddress(address);
             // Specify the message content.
 
             MailMessage message = new MailMessage(from, to);
 
-            message.Body = " " + amessage ;
+            message.Body = " " + amessage;
             // Include some non-ASCII characters in body and subject.
             string someArrows = new string(new char[] { '\u2190', '\u2191', '\u2192', '\u2193' });
             message.Body += Environment.NewLine + someArrows;
             message.BodyEncoding = System.Text.Encoding.UTF8;
-            message.Subject = "Thank you For your Purchase ! " + someArrows;
+            message.Subject = "Policy Payment " + someArrows;
             message.SubjectEncoding = System.Text.Encoding.UTF8;
             // Set the method that is called back when the send operation ends.
             client.SendCompleted += new SendCompletedEventHandler(SendCompletedCallback);
@@ -313,13 +313,14 @@ namespace InuranceAssignmentAPD03.Controllers
 
             var email = await Email
                 .From(emailAddress: "TechnoSolutions0001@gmail.com")
-                .To(emailAddress: "kovlyn.reddy@gmail.com", name: "Kovlyn Reddy")
-                .Subject(subject: " " + amessage )
-                .Body(body: "Items Purchase =")
+                .To(emailAddress: address, name: "Hi User")
+                .Subject(subject: " " + amessage)
+                .Body(body: "Policy Payment")
                 .SendAsync();
 
             #endregion
         }
+
     }
 }
 
