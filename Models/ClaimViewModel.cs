@@ -9,7 +9,7 @@ namespace InuranceAssignmentAPD03.Models
 {
     public class ClaimViewModel
     {
-        public InsuranceDLL.DataAccess.DomainModels.Transaction application { get; set; }
+        public InsuranceDLL.DataAccess.DomainModels.Transaction application { get; set; } = new InsuranceDLL.DataAccess.DomainModels.Transaction();
         public Claim claim { get; set; }
         public User user { get; set; }
         public Profile profile { get; set; }

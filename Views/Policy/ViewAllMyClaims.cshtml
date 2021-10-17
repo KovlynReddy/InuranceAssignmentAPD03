@@ -1,0 +1,10 @@
+﻿@model List<InuranceAssignmentAPD03.Models.ClaimViewModel>
+
+@{
+    ViewData["Title"] = "ViewAllMyClaims";
+}
+@foreach (var item in Model)
+{
+
+<partial name="_Claim" model="item"></partial>
+}

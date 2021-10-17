@@ -353,7 +353,14 @@ namespace InuranceAssignmentAPD03.Data
 
         public Claim UpdateClaim(Claim entity)
         {
-            throw new NotImplementedException();
+            var selectedentity = db.Claims.FirstOrDefault(m => m.ClaimId == entity.ClaimId);
+            selectedentity.Notes = entity.Notes;
+
+            db.Entry(selectedentity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            db.SaveChanges();
+
+            return selectedentity;
         }
     }
 }

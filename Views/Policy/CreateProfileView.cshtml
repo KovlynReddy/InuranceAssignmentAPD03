@@ -11,6 +11,9 @@
                 <input asp-for="ProfilePath" class="form-control" />
                 <span asp-validation-for="ProfilePath" class="text-danger"></span>
             </div>
+
+            <input type="hidden" asp-for="FamilyId" />
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="ASinus" /> @Html.DisplayNameFor(model => model.ASinus)

@@ -8,6 +8,7 @@
         Origional Cost : @Model.SelectedPolicies.BaseCost
 
         Your Premium : <a href="#" class="">@Model.Applications.Amount</a>
+
         <br />
         <a asp-action="ApproveApplication" asp-controller="Policy" asp-route-id="@Model.Applications.TransactionId" class="card-link">Approve</a>
         <br />

@@ -210,7 +210,7 @@ namespace InuranceAssignmentAPD03.Controllers
             claim.ProfileId = selectedprofile.ProfileId;
             claim.Type = "Unapproved";
             claim.UserId = selecteduser.UserId;
-            claim.ClaimId = Guid.NewGuid().ToString();
+            claim.ClaimId = model.ClaimId;
             claim.Cost = model.Cost;
             claim.Description = model.Description;
             claim.AccountId = selectedaccount.AccountId;
@@ -247,8 +247,8 @@ namespace InuranceAssignmentAPD03.Controllers
         {
             var selectedUser = db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
 
-            var applications = db.GetAllTransactions().Where(m => m.Notes == "UnapprovedClaim").ToList();
-            var claims = db.GetAllClaims().Where(m => m.Type == "Unapproved").ToList();
+            var applications = db.GetAllTransactions().Where(m => m.Notes == "UnapprovedClaim" || m.Notes == "ApealUnApproved").ToList();
+            var claims = db.GetAllClaims().Where(m => m.Type == "Unapproved" || m.Notes == "ApealUnApproved").ToList();
 
             var claimpolicyids = applications.Select(m => m.PolicyId).Distinct().ToList();
             var claimuserids = applications.Select(m => m.UserId).Distinct().ToList();
@@ -300,11 +300,20 @@ namespace InuranceAssignmentAPD03.Controllers
 
             var application = db.GetAllTransactions().FirstOrDefault(m => m.TransactionId == id);
 
-            application.Notes = "Denied";
 
             var claim = db.GetAllClaims().FirstOrDefault(m=>m.ClaimId == application.ClaimId);
 
-            claim.Notes = "Denied";
+            if (claim.Notes == "ApealUnApproved")
+            {
+
+
+                application.Notes = "Canceled";
+                claim.Notes = "Canceled";
+            }
+            else {
+                application.Notes = "Denied";
+                claim.Notes = "Denied";
+            }
 
             db.UpdateClaim(claim);
             // send email 

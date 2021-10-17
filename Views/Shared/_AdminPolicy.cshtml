@@ -5,7 +5,7 @@
         <h4 class="card-title">@Model.PolicyName</h4>
         <p class="card-text">@Model.PolicyDescription</p>
         <a href="#" class="card-link">@Model.BaseCost</a><br />
-        <a asp-action="ViewPolicy" asp-controller="Policy" asp-route-id="@Model.PolicyId" class="card-link">View Policy</a>
+        <a asp-action="EditPolicy" asp-controller="Admin" asp-route-id="@Model.PolicyId" class="card-link">Edit  Policy</a>
     </div>
 </div>
     

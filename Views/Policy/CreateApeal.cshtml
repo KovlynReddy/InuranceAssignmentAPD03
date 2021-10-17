@@ -1,0 +1,29 @@
+﻿@model InuranceAssignmentAPD03.Models.CreateApealViewModel
+
+<form asp-action="MakeClaim" asp-controller="Policy">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+    <div class="form-group">
+        <label asp-for="ApealNotes" class="control-label"></label>
+        <input asp-for="ApealNotes"/>
+        <span asp-validation-for="ApealNotes" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Reason" class="control-label"></label>
+        @*<input asp-for="Description" class="form-control" />*@
+        <span asp-validation-for="Reason" class="text-danger"></span>
+
+        @Html.DropDownListFor(m => m.Reason, new SelectListItem[]{
+        new SelectListItem() { Text = "Accident", Value = "Accident" },
+        new SelectListItem() { Text = "Desease", Value = "Desease" },
+        new SelectListItem() { Text = "Terminal", Value = "Terminal" },
+        new SelectListItem() { Text = "Suicide", Value = "Suicide" }})
+
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Apply" class="btn btn-primary" />
+    </div>
+</form>

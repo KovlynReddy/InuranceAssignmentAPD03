@@ -1,7 +1,17 @@
-﻿@model InsuranceDLL.DataAccess.DomainModels.Policy
+﻿@model InuranceAssignmentAPD03.Models.ViewPolicyViewModel
 
 @{
     ViewData["Title"] = "ViewPolicy";
+
+    List<SelectListItem> family = new List<SelectListItem>();
+
+    if (Model != null && Model.profiles != null)
+    {
+
+        var allattendies = Model.profiles;
+        family = allattendies.Select(a => new SelectListItem { Text = a.UserName, Value = a.UserId }).ToList();
+
+    }
 }
 
 <h1>ViewPolicy</h1>
@@ -9,78 +19,105 @@
 <div>
     <h4>Policy</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PolicyId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PolicyId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PolicyName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PolicyName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PolicyDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PolicyDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BaseCost)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BaseCost)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MonthlyPremium)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MonthlyPremium)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VAT)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VAT)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AverageAge)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AverageAge)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Constant)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Constant)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Valid)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Valid)
-        </dd>
-    </dl>
+    @using (Html.BeginForm("GenerateQoute", "Policy", FormMethod.Post))
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.policy.PolicyId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.policy.PolicyId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.policy.PolicyName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.policy.PolicyName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.policy.PolicyDescription)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.policy.PolicyDescription)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.policy.Type)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.policy.Type)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.policy.BaseCost)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.policy.BaseCost)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.policy.MonthlyPremium)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.policy.MonthlyPremium)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.policy.VAT)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.policy.VAT)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.policy.AverageAge)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.policy.AverageAge)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.policy.Valid)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.policy.Valid)
+            </dd>
+        </dl>
 
-    <form asp-action="ApplyForPolicy" asp-controller="Policy" asp-route-id="@Model.PolicyId">
-        <input type="submit" name="name" value="Apply" />
-    </form>
+        <input type="hidden" asp-for="policy.PolicyId" />
+        @Html.HiddenFor(m => m.policy.PolicyId);
+        <div class="form-group">
+            <label asp-for="ProfileId" class="control-label"></label>
+            @Html.DropDownListFor(m => m.ProfileId, family,new { id = "selectItem" })
+            <span asp-validation-for="ProfileId" class="text-danger"></span>
+        </div>
+        <a href="Policy/ViewPolicy/@Model.policy.PolicyId/@Model.ProfileId">Get a Qoute</a>
 
+        <input type="submit" name="name" value="Get The Qoute" />
+    }
+
+
+    @*<form asp-action="ApplyForPolicy" asp-controller="Policy" asp-route-id="@Model.policy.PolicyId">
+            <input type="submit" name="name" value="Apply" />
+        </form>*@
+
+    @*<br /><br />@Html.ActionLink("Get Qoute", "GenerateQoute", "Policy", new { id = Model.policy.PolicyId, userid = Model.ProfileId })*@
 </div>
 
+
+<Script type="text/javascript"  >
+       $(document).ready(function()  
+       {  
+           $("#selectItem").on("change", function()  
+           {  
+               $.ajax(  
+                   {
+                       url: 'Policy/GenerateQoute?userid=' + $(this).attr("value") + '/policyid=@Model.policy.PolicyId',  
+                   type: 'GET',  
+                    data: "",  
+                    contentType: 'application/json; charset=utf-8',  
+                    success: function(data)  
+                    {  
+                        $("#partialDiv").html(data);  
+                    },  
+                    error: function()  
+                    {  
+                        alert("error");  
+                    }  
+                });  
+            });  
+    }); </Script>

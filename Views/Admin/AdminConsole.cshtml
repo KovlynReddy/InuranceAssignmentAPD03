@@ -7,13 +7,13 @@
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                
                 <ul class="navbar-nav flex-grow-1">
-                    
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Policy" asp-action="Index">AddProfile</a>
-                    </li>
+
 
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Policy" asp-action="CreatePolicy">AddPolicy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewPolicies">View All Policies</a>
                     </li>
                     
                     <li class="nav-item">
@@ -31,4 +31,7 @@
         </div>
     </nav>
 
-<a asp-action="SendOutDebitOrders" asp-controller="Admin">Send Out Debit Orders</a>
+<div class="jumbotron-fluid">
+    <p>Admin Controlls</p>
+<a asp-action="SendOutDebitOrders" asp-controller="Admin" class="btn btn-warning">Send Out Debit Orders</a>
+</div>

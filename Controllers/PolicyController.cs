@@ -27,9 +27,16 @@ namespace InuranceAssignmentAPD03.Controllers
         public IActionResult Index()
         {
             CreateProfileViewModel model = new CreateProfileViewModel();
-           
 
-            return View();
+            var SelectedUser = Db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
+            var SelectedProfile = Db.GetAllProfiles().FirstOrDefault(m=>m.UserId == SelectedUser.UserId);
+
+            if (SelectedProfile != null && SelectedProfile != new Profile())
+            {
+                model.FamilyId = SelectedProfile.FamilyId;
+            }
+
+            return View(model);
         }
 
         [HttpPost]
@@ -42,7 +49,12 @@ namespace InuranceAssignmentAPD03.Controllers
             newProfile.DOB = model.DOB;
             newProfile.UserId = myuser.UserId;
             newProfile.FamilyMembers = model.FamilyMembers;
-            newProfile.FamilyId = Guid.NewGuid().ToString();
+            if (model.FamilyId == null || model.FamilyId == string.Empty)
+            {
+                newProfile.FamilyId = Guid.NewGuid().ToString();
+
+            }
+            else { newProfile.FamilyId = model.FamilyId; }
 
              newProfile.Sinus                   = model.ASinus                       ? 1 : 0   ;
              newProfile.HeridataryDeseases      = model.AHeridataryDeseases          ? 1 : 0   ;
@@ -61,6 +73,35 @@ namespace InuranceAssignmentAPD03.Controllers
 
             return RedirectToAction("Index","Home");
         }
+
+
+        [HttpGet]
+        public IActionResult CreateApeal(string id) {
+            var apeal = Db.GetAllClaims().FirstOrDefault(m=>m.ClaimId==id);
+
+            CreateApealViewModel model = new CreateApealViewModel();
+            model.ClaimId = id;
+            model.ApealNotes = string.Empty;
+            model.ProfileId = apeal.ProfileId;
+            model.PolicyId = apeal.PolicyId;
+            model.Reason = string.Empty;
+
+            return View(model); }
+
+        [HttpPost]
+        public IActionResult CreateApeal(CreateApealViewModel apeal) {
+
+            var trans = Db.GetAllTransactions().FirstOrDefault(m=>m.ProfileId == apeal.ProfileId && m.PolicyId == apeal.PolicyId);
+            var claim = Db.GetAllClaims().FirstOrDefault(m=>m.ClaimId == apeal.ClaimId);
+
+            trans.Notes = "ApealUnApproved";
+            claim.Notes = "ApealUnApproved";
+
+            Db.UpdateClaim(claim);
+            Db.UpdateTransaction(trans);
+
+            return View(); }
+
         [HttpGet]
         public IActionResult CreatePolicy() {
 
@@ -85,6 +126,72 @@ namespace InuranceAssignmentAPD03.Controllers
             
             
             return View(model); 
+        }
+
+        [HttpGet]
+        public IActionResult ViewAllMyClaims() {
+
+            var alltransactions = Db.GetAllTransactions();
+            var allclaims = Db.GetAllClaims();
+            var allusers = Db.GetAllUsers();
+            var allprofiles = Db.GetAllProfiles();
+            var allaccounts = Db.GetAllAccounts();
+            var allpolicies = Db.GetAllPolicys(); 
+
+            var selecteduser = allusers.FirstOrDefault(m => m.Email == User.Identity.Name);
+            var selectedprofile = allprofiles.FirstOrDefault(m => m.UserId == selecteduser.UserId);
+            var selectedaccount = allaccounts.FirstOrDefault(m => m.UserId == selecteduser.UserId);
+            var myclaims = allclaims.Where(m=>m.UserId == selecteduser.UserId || m.AccountId == selectedaccount.AccountId).ToList();
+
+            List<ClaimViewModel> model = new List<ClaimViewModel>();
+
+
+
+            foreach (var claim in myclaims)
+            {
+
+                var us = allusers.FirstOrDefault(m=>claim.UserId == m.UserId);
+                var cla = allclaims.FirstOrDefault(m=>claim.ClaimId == m.ClaimId);
+                var acc = allaccounts.FirstOrDefault(m=>us.UserId == m.UserId);
+                var pr = allprofiles.FirstOrDefault(m=>us.UserId == m.UserId);
+                var pol = allpolicies.FirstOrDefault(m => m.PolicyId == claim.PolicyId); 
+                var tra = alltransactions.FirstOrDefault(m=>(m.UserId == us.UserId && m.PolicyId == pol.PolicyId )|| m.ClaimId == cla.ClaimId) ;
+                model.Add(new ClaimViewModel(tra,cla,us,pr,acc,pol));
+            }
+
+            return View(model); 
+        }
+
+        [HttpPost]
+        public IActionResult GenerateQoute(string policyid,string userid)
+        { return View(); }
+
+            [HttpPost]
+        public IActionResult GenerateQoute(ViewPolicyViewModel policy)
+        {
+            var selectedpolicy = Db.GetAllPolicys().FirstOrDefault(m => m.PolicyId == policy.policy.PolicyId);
+            var selecteduser = Db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
+            var selectedprofile = Db.GetAllProfiles().FirstOrDefault(m => m.ProfileId == policy.ProfileId);
+            var selectedaccount = Db.GetAllAccounts().FirstOrDefault(m => m.UserId == selecteduser.UserId);
+
+            Transaction apply = new Transaction();
+
+            apply.AccountId = selectedaccount.AccountId;
+            apply.Amount = selectedpolicy.BaseCost + (Math.Abs(selectedpolicy.AverageAge - selectedprofile.Age) * 10) + (10 * (selectedprofile.Sinus == 1 ? 1 : 2)) + (10 * (selectedprofile.HeridataryDeseases == 1 ? 1 : 2)) + (10 * (selectedprofile.Diabeties == 1 ? 1 : 2)) + (10 * (selectedprofile.Cancer == 1 ? 1 : 2)) + (10 * (selectedprofile.TerminalIllnesses == 1 ? 1 : 2)) + (10 * (selectedprofile.Kids == 1 ? 1 : 2)) + (10 * (selectedprofile.DangerousWorkingEnviroment == 1 ? 1 : 2)) + (10 * (selectedprofile.TravelForWork == 1 ? 1 : 2)) + (10 * (selectedprofile.SmokeCigerrets == 1 ? 1 : 2)) + (10 * (selectedprofile.DrinkAlcohol == 1 ? 1 : 2)) + (10 * (selectedprofile.OnPercesciptiveDrugs == 1 ? 1 : 2)) + (10 * (selectedprofile.OnCronicDrugs == 1 ? 1 : 2));
+            apply.PolicyId = selectedpolicy.PolicyId;
+            apply.Notes = "Application";
+            apply.ProfileId = selectedprofile.ProfileId;
+            apply.TimeSent = DateTime.Now;
+            apply.TransactionId = Guid.NewGuid().ToString();
+            apply.UserId = selecteduser.UserId;
+
+            //model.SelectedPolicies = selectedpolicy;
+            //model.Applicants = selecteduser;
+            //model.Applications = apply;
+
+            ApplicationViewModel model = new ApplicationViewModel(selectedpolicy,apply,selecteduser); 
+            
+            return View("ViewQoute",model);
         }
 
         [HttpPost]
@@ -169,8 +276,19 @@ namespace InuranceAssignmentAPD03.Controllers
         [HttpGet]
         public IActionResult ViewPolicy(string id) {
             var selectedpolicy = Db.GetAllPolicys().FirstOrDefault(m=>m.PolicyId == id);
+            ViewPolicyViewModel model = new ViewPolicyViewModel();
+              model.policy =  selectedpolicy ;
+           
+            var selectedUser = Db.GetAllUsers().FirstOrDefault(m=>m.Email == User.Identity.Name);
+            var selectedProfile = Db.GetAllProfiles().FirstOrDefault(m=>m.UserId == selectedUser.UserId);
 
-            return View(selectedpolicy); }
+
+            if (selectedUser != null)
+            {
+            model.profiles = Db.GetAllProfiles().Where(m=>m.FamilyId == selectedProfile.FamilyId).ToList();
+            }
+
+            return View(model); }
 
         [HttpGet]
         public IActionResult ViewAllPolicies() {

@@ -1,15 +1,15 @@
 ﻿@model InuranceAssignmentAPD03.Models.ClaimViewModel
 
-<div class="jumbotron-fluid">
+ <div class="jumbotron-fluid">
     User Balance Balance :    @Model.account.Balance <br />
 
 
-    User Claim :    @Model.application.Amount  <br />
+     User Claim :    @Model.application.Amount  <br />
     Application Status :    @Model.application.Notes  <br />
     TimeSent :    @Model.application.TimeSent  <br />
-
-
-    Claim Reason :    @Model.claim.Description <br />
+     
+    
+     Claim Reason :    @Model.claim.Description <br />
     Claim Amount :    @Model.claim.Cost <br />
     Claim Status :    @Model.claim.Notes <br />
     Policy Name :    @Model.policy.PolicyName <br />
@@ -17,8 +17,8 @@
     Policy Base Cost :    @Model.policy.BaseCost <br />
     Client Age :     @Model.profile.Age <br />
     Client Email :    @Model.user.Email <br />
-</div>
-<br />
-<a asp-action="ApproveApplication" asp-controller="Account" asp-route-id="@Model.application.TransactionId" class=" btn btn-success">Approve</a>
-
-<a asp-action="DenyApplication" asp-controller="Account" asp-route-id="@Model.application.TransactionId" class="btn btn-danger">Deny</a>
+     </div>
+@if (Model.claim.Notes == "Denied")
+{
+<a asp-controller="Policy" asp-action="CreateApeal" asp-route-id="@Model.claim.ClaimId"></a>
+}

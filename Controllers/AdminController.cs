@@ -28,6 +28,31 @@ namespace InuranceAssignmentAPD03.Controllers
         }
 
         [HttpGet]
+        public IActionResult ViewPolicies() {
+
+            var policies = db.GetAllPolicys();
+
+            return View(policies); 
+        }
+
+        [HttpGet]
+        public IActionResult EditPolicy(string id) {
+
+            var policy = db.GetAllPolicys().FirstOrDefault(m=>m.PolicyId==id);
+
+
+            return View("CreatePolicy",policy); 
+        }
+
+        [HttpPost]
+        public IActionResult EditPolicy(Policy model) {
+
+            db.UpdatePolicy(model);
+
+            return View(); }
+
+
+        [HttpGet]
         public IActionResult AdminConsole()
         {
             return View();

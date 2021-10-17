@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -13,6 +14,7 @@ namespace InsuranceDLL.DataAccess.DomainModels
         public string AccountId { get; set; }
         public string UserId { get; set; }
         public string ProfileId { get; set; }
+        [DisplayName("Select Policy")]
         public string PolicyId { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
