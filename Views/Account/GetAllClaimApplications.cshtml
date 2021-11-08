@@ -2,5 +2,9 @@
 
 @foreach (var item in Model.Claims)
 {
-    <partial name="_ClaimView" model="item" />
-}   
+
+    if (item.claim != null && item.claim.id > 1)
+    {
+        <partial name="_ClaimView" model="item" />
+        }
+    }

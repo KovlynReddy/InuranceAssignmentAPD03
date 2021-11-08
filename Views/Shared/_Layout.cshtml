@@ -6,7 +6,14 @@
     <title>@ViewData["Title"] - InuranceAssignmentAPD03</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|" rel="stylesheet" type="text/css">
+    <link href="fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="fonts/lineo-icon/style.css" rel="stylesheet" type="text/css">
+
+
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -26,38 +33,65 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Policy" asp-action="ViewAllPolicies">Catalog</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ViewMyProfile">ViewMyProfile</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ViewMyProfile">My Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="MakeClaim">Make Claim</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="MakeClaim">Claim</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Policy" asp-action="Index">New Profile</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Policy" asp-action="ViewAllMyClaims">My Claims</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminConsole">Admin</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Policy" asp-action="Index">AddProfile</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Policy" asp-action="ViewAllMyClaims">View My Claims</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+
+
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+
+
+
+
+
+
+
+
+
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - InuranceAssignmentAPD03 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+
+
+
+
+
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=en"></script>
+    <script src="~/js/plugins.js"></script>
+    <script src="~/js/app.js"></script>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

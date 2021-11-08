@@ -96,11 +96,12 @@ namespace InuranceAssignmentAPD03.Controllers
 
             trans.Notes = "ApealUnApproved";
             claim.Notes = "ApealUnApproved";
+            claim.Description = apeal.ApealNotes; 
 
             Db.UpdateClaim(claim);
             Db.UpdateTransaction(trans);
 
-            return View(); }
+            return RedirectToAction("Index"); }
 
         [HttpGet]
         public IActionResult CreatePolicy() {
@@ -162,7 +163,7 @@ namespace InuranceAssignmentAPD03.Controllers
             return View(model); 
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult GenerateQoute(string policyid,string userid)
         { return View(); }
 

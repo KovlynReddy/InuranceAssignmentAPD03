@@ -14,11 +14,8 @@
     }
 }
 
-<h1>ViewPolicy</h1>
-
 <div>
-    <h4>Policy</h4>
-    <hr />
+
     @using (Html.BeginForm("GenerateQoute", "Policy", FormMethod.Post))
     {
         <dl class="row">
@@ -79,45 +76,21 @@
         </dl>
 
         <input type="hidden" asp-for="policy.PolicyId" />
+
         @Html.HiddenFor(m => m.policy.PolicyId);
         <div class="form-group">
             <label asp-for="ProfileId" class="control-label"></label>
             @Html.DropDownListFor(m => m.ProfileId, family,new { id = "selectItem" })
             <span asp-validation-for="ProfileId" class="text-danger"></span>
         </div>
-        <a href="Policy/ViewPolicy/@Model.policy.PolicyId/@Model.ProfileId">Get a Qoute</a>
 
-        <input type="submit" name="name" value="Get The Qoute" />
+        @*<a href="Policy/GenerateQoute/@Model.policy.PolicyId/@Model.ProfileId">Get a Qoute</a>*@
+
+       <input type="submit" name="name" value="Get The Qoute" />
     }
 
-
-    @*<form asp-action="ApplyForPolicy" asp-controller="Policy" asp-route-id="@Model.policy.PolicyId">
+    <form asp-action="ApplyForPolicy" asp-controller="Policy" asp-route-id="@Model.policy.PolicyId">
             <input type="submit" name="name" value="Apply" />
-        </form>*@
+    </form>
 
-    @*<br /><br />@Html.ActionLink("Get Qoute", "GenerateQoute", "Policy", new { id = Model.policy.PolicyId, userid = Model.ProfileId })*@
 </div>
-
-
-<Script type="text/javascript"  >
-       $(document).ready(function()  
-       {  
-           $("#selectItem").on("change", function()  
-           {  
-               $.ajax(  
-                   {
-                       url: 'Policy/GenerateQoute?userid=' + $(this).attr("value") + '/policyid=@Model.policy.PolicyId',  
-                   type: 'GET',  
-                    data: "",  
-                    contentType: 'application/json; charset=utf-8',  
-                    success: function(data)  
-                    {  
-                        $("#partialDiv").html(data);  
-                    },  
-                    error: function()  
-                    {  
-                        alert("error");  
-                    }  
-                });  
-            });  
-    }); </Script>

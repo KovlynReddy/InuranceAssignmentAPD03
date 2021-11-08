@@ -63,7 +63,15 @@ namespace InuranceAssignmentAPD03.Controllers
 
             }
 
-            return View();
+            List<PostViewModel> posts = new List<PostViewModel>();
+
+            posts.Add(new PostViewModel { Image = "StalkImage.png", Link = "https://google.com", Text = "New Insurance Policy 1!", Title = "Special1" });
+            posts.Add(new PostViewModel { Image = "StalkImage.png", Link = "https://google.com", Text = "New Insurance Policy 2!", Title = "Special2" });
+            posts.Add(new PostViewModel { Image = "StalkImage.png", Link = "https://google.com", Text = "New Insurance Policy 3!", Title = "Special3" });
+            posts.Add(new PostViewModel { Image = "StalkImage.png", Link = "https://google.com", Text = "New Insurance Policy 4!", Title = "Special4" });
+
+
+            return View(posts);
         }
 
         public IActionResult Privacy()

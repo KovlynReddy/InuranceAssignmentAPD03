@@ -3,8 +3,15 @@
 @{
     ViewData["Title"] = "ViewAllMyClaims";
 }
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+
 @foreach (var item in Model)
 {
 
 <partial name="_Claim" model="item"></partial>
 }
+    </div>
+    <div class="col-md-4"></div>
+</div>

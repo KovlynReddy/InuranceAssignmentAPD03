@@ -1,5 +1,6 @@
 ﻿@model InuranceAssignmentAPD03.Models.ClaimViewModel
 
+		 
 <div class="jumbotron-fluid">
     User Balance Balance :    @Model.account.Balance <br />
 
@@ -22,3 +23,4 @@
 <a asp-action="ApproveApplication" asp-controller="Account" asp-route-id="@Model.application.TransactionId" class=" btn btn-success">Approve</a>
 
 <a asp-action="DenyApplication" asp-controller="Account" asp-route-id="@Model.application.TransactionId" class="btn btn-danger">Deny</a>
+

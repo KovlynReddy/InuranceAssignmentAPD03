@@ -1,6 +1,6 @@
 ﻿@model InuranceAssignmentAPD03.Models.CreateApealViewModel
 
-<form asp-action="MakeClaim" asp-controller="Policy">
+<form asp-action="CreateApeal" asp-controller="Policy">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
@@ -15,6 +15,10 @@
         @*<input asp-for="Description" class="form-control" />*@
         <span asp-validation-for="Reason" class="text-danger"></span>
 
+        @Html.HiddenFor(m=>m.ClaimId)
+        @Html.HiddenFor(m=>m.PolicyId)
+        @Html.HiddenFor(m=>m.ProfileId)
+         
         @Html.DropDownListFor(m => m.Reason, new SelectListItem[]{
         new SelectListItem() { Text = "Accident", Value = "Accident" },
         new SelectListItem() { Text = "Desease", Value = "Desease" },
