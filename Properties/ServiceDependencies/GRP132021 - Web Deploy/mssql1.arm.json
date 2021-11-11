@@ -4,7 +4,7 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "HopeInsurance",
+      "defaultValue": "GRP13",
       "metadata": {
         "_parameterType": "resourceGroup",
         "description": "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
@@ -45,13 +45,13 @@
       "properties": {
         "mode": "Incremental",
         "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
           "resources": [
             {
               "kind": "v12.0",
               "location": "[parameters('resourceLocation')]",
-              "name": "inuranceassignmentapd03dbserver",
+              "name": "inuranceassignmentapd03dbserver13",
               "type": "Microsoft.Sql/servers",
               "apiVersion": "2017-10-01-preview"
             },
@@ -63,11 +63,11 @@
               },
               "kind": "v12.0,user",
               "location": "[parameters('resourceLocation')]",
-              "name": "inuranceassignmentapd03dbserver/InuranceAssignmentAPD03_db",
+              "name": "inuranceassignmentapd03dbserver13/InuranceAssignmentAPD03_db",
               "type": "Microsoft.Sql/servers/databases",
               "apiVersion": "2017-10-01-preview",
               "dependsOn": [
-                "inuranceassignmentapd03dbserver"
+                "inuranceassignmentapd03dbserver13"
               ]
             }
           ]
