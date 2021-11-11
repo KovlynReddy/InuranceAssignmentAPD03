@@ -35,32 +35,21 @@ namespace InuranceAssignmentAPD03.Controllers
             string UserName = User.Identity.Name;
 
             var matchedEmployees = Users.FirstOrDefault(m => m.UserId == UserName || m.Email == UserName);
-
-            if (matchedEmployees == null || matchedEmployees == new InsuranceDLL.DataAccess.DomainModels.User())
+            InsuranceDLL.DataAccess.DomainModels.Account matchedaccounts = new InsuranceDLL.DataAccess.DomainModels.Account();
+            
+            if ((matchedEmployees == null) || (matchedEmployees == new User()))
             {
                 User model = new User();
-
                 model.UserId = Guid.NewGuid().ToString();
                 model.Email = User.Identity.Name;
 
                 db.AddUser(model);
+                matchedEmployees = Users.FirstOrDefault(m => m.UserId == UserName || m.Email == UserName);
 
-            matchedEmployees = Users.FirstOrDefault(m => m.UserId == UserName || m.Email == UserName);
-            }
-
-
-            var matchedaccounts = db.GetAllAccounts().FirstOrDefault(m => m.UserId == matchedEmployees.UserId);
-
-            if (matchedaccounts == null || matchedaccounts == new InsuranceDLL.DataAccess.DomainModels.Account())
-            {
-                Account model = new Account();
-
-                model.AccountId = Guid.NewGuid().ToString();
-                model.UserId = matchedEmployees.UserId;
+                matchedaccounts.AccountId = Guid.NewGuid().ToString();
+                matchedaccounts.UserId = model.UserId;
                 
-
-                db.AddAccount(model);
-
+                db.AddAccount(matchedaccounts);
             }
 
             List<PostViewModel> posts = new List<PostViewModel>();

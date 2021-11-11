@@ -45,7 +45,7 @@ namespace InuranceAssignmentAPD03.Controllers
             var myuser = Db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name); ;
             Profile newProfile = new Profile();
 
-            model.ProfilePath = model.Image.FileName;
+            //model.ProfilePath = model.Image.FileName;
 
             newProfile.UserName = model.UserName;
             newProfile.Age = model.Age;
@@ -203,6 +203,8 @@ namespace InuranceAssignmentAPD03.Controllers
             var selectedpolicy = Db.GetAllPolicys().FirstOrDefault(m => m.PolicyId == id);
             var selecteduser = Db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
             var selectedprofile = Db.GetAllProfiles().FirstOrDefault(m => m.UserId == selecteduser.UserId);
+
+            var accounts = Db.GetAllAccounts();
             var selectedaccount = Db.GetAllAccounts().FirstOrDefault(m => m.UserId == selecteduser.UserId);
 
             Transaction apply = new Transaction();

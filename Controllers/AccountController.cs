@@ -245,30 +245,36 @@ namespace InuranceAssignmentAPD03.Controllers
         [HttpGet]
         public IActionResult GetAllClaimApplications()
         {
-            var selectedUser = db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name);
+            var allusers = db.GetAllUsers();
+            var alltransactions = db.GetAllTransactions();
+            var allclaims = db.GetAllClaims();
+            var allpolicies = db.GetAllPolicys();
+            var allprofiles = db.GetAllProfiles();
+            var allaccounts = db.GetAllAccounts();
 
-            var applications = db.GetAllTransactions().Where(m => m.Notes == "UnapprovedClaim" || m.Notes == "ApealUnApproved").Distinct().ToList();
-            var claims = db.GetAllClaims().Where(m => m.Type == "Unapproved" || m.Notes == "ApealUnApproved").Distinct().ToList();
+            var selectedUser = allusers.FirstOrDefault(m => m.Email == User.Identity.Name);
+            var applications = alltransactions.Where(m => m.Notes == "UnapprovedClaim" || m.Notes == "ApealUnApproved").Distinct().ToList();
+            var claims = allclaims.Where(m => m.Type == "Unapproved" || m.Notes == "ApealUnApproved").Distinct().ToList();
 
             var claimpolicyids = applications.Select(m => m.PolicyId).Distinct().ToList();
             var claimuserids = applications.Select(m => m.UserId).Distinct().ToList();
 
-            var policiess = db.GetAllPolicys().Where(m => claimpolicyids.Contains(m.PolicyId)).Distinct().ToList();
-            var users = db.GetAllUsers().Where(m => claimuserids.Contains(m.UserId)).Distinct().ToList();
-            var profiles = db.GetAllProfiles().Where(m => claimuserids.Contains(m.UserId)).Distinct().ToList();
-            var accounts = db.GetAllAccounts().Where(m => claimuserids.Contains(m.UserId)).Distinct().ToList();
+            var policiess = allpolicies.Where(m => claimpolicyids.Contains(m.PolicyId)).Distinct().ToList();
+            var user = allusers.Where(m => claimuserids.Contains(m.UserId)).Distinct().ToList();
+            var profiles = allprofiles.Where(m => claimuserids.Contains(m.UserId)).Distinct().ToList();
+            var accounts = allaccounts.Where(m => claimuserids.Contains(m.UserId)).Distinct().ToList();
 
        
 
             ViewAllClaimsViewModel model = new ViewAllClaimsViewModel();
 
-            for (int i = 0; i < users.Count; i++)
+            for (int i = 0; i < applications.Count; i++)
             {
                var app = applications[i]  ;
-               var us =  users[i]         ;
-               var cla =  claims.FirstOrDefault(m=>m.UserId == us.UserId)        ;
-               var pro =  profiles.FirstOrDefault(m => m.UserId == us.UserId);
-               var acc =  accounts.FirstOrDefault(m => m.UserId == us.UserId);
+                var us = user.FirstOrDefault(m=>m.UserId == app.UserId)         ;
+               var cla =  claims.FirstOrDefault(m=>m.UserId == app.UserId)        ;
+               var pro =  profiles.FirstOrDefault(m => m.UserId == app.UserId);
+               var acc =  accounts.FirstOrDefault(m => m.UserId == app.UserId);
                var pol =  policiess.FirstOrDefault(m => m.PolicyId == app.PolicyId );
             var newcliam = new ClaimViewModel(app,cla,us,pro,acc,pol);
             model.Claims.Add(newcliam);

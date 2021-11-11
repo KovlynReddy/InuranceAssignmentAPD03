@@ -3,7 +3,7 @@
 @foreach (var item in Model.Claims)
 {
 
-    if (item.claim != null && item.claim.id > 1)
+    if (item.claim != null )
     {
         <partial name="_ClaimView" model="item" />
         }
