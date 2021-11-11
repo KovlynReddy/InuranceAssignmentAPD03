@@ -29,20 +29,21 @@
                 <div class="top-header">
                     <div class="container">
                         <a href="index.html" id="branding">
-                            <img src="~/insurance/images/logo.png" alt="Company Name" class="logo">
+                            <img src="~/insurance/images/logo.png" alt="Hope Insurance" class="logo">
                             <div class="logo-text">
-                                <h1 class="site-title">Company Name</h1>
-                                <small class="description">Taline goes here</small>
+                                <h1 class="site-title">Hope Insurance</h1>
+                                <small class="description">Bringing you Hope </small>
                             </div>
                         </a> <!-- #branding -->
 
                         <div class="right-section pull-right">
                             <a href="#" class="phone"><img src="~/insurance/images/icon-phone.png" class="icon">+1 823 424 9134</a>
 
-                            <form action="#" class="search-form">
+                            <form action="#" class="search-form no-bullet">
                                 <input type="text" placeholder="Search...">
                                 <button type="submit"><img src="~/insurance/images/icon-search.png" alt=""></button>
                             </form>
+
                         </div>
                     </div> <!-- .container -->
                 </div> <!-- .top-header -->
@@ -52,10 +53,10 @@
                     <div class="container">
                         <div class="main-navigation">
                             <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
-                            <partial name="_LoginPartial" />
-                            <ul class="navbar-nav flex-grow-1">
+               
+                            <ul class="navbar-nav flex-grow-1 no-bullet">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">News</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Policy" asp-action="ViewAllPolicies">Catalog</a>
@@ -78,22 +79,23 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminConsole">Admin</a>
                                 </li>
                             </ul>
+                            <div class="pull-right">
+                                <partial name="_LoginPartial" />
+                            </div>
                         </div> <!-- .main-navigation -->
 
-                        <div class="social-links">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                        </div>
-
-                        <div class="mobile-navigation"></div>
                     </div>
                 </div>
 
             </header> <!-- .site-header -->
+            <div class="row">
+                <div class="col-md-3"><partial name="_Add" /></div>
+                <div class="col-md-6">
 
-            @RenderBody()
+                    @RenderBody()
+                </div>
+                <div class="col-md-3"><partial name="_Add" /></div>
+            </div>
 
             <div class="site-footer">
                 <div class="widget-area">
@@ -103,10 +105,10 @@
                                 <div class="widget">
                                     <h3 class="widget-title">Contact</h3>
                                     <address>
-                                        Company Name INC. 523 Burt Street, Omaha
+                                        Hope Insurance INC. 523 Burt Street, Omaha
                                     </address>
                                     <a href="#">Phone: +1 823 424 9134</a>
-                                    <a href="mailto:info@company.com">info@company.com</a>
+                                    <a href="mailto:info@company.com">FindHope@HopeInsurance.com</a>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-2">
@@ -193,6 +195,11 @@
         <script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=en"></script>
         <script src="~/insurance/js/plugins.js"></script>
         <script src="~/insurance/js/app.js"></script>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
 
     </body>
 

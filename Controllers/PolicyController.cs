@@ -44,6 +44,9 @@ namespace InuranceAssignmentAPD03.Controllers
         {
             var myuser = Db.GetAllUsers().FirstOrDefault(m => m.Email == User.Identity.Name); ;
             Profile newProfile = new Profile();
+
+            model.ProfilePath = model.Image.FileName;
+
             newProfile.UserName = model.UserName;
             newProfile.Age = model.Age;
             newProfile.DOB = model.DOB;

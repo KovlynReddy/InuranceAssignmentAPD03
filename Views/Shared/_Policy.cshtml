@@ -2,10 +2,11 @@
 
 <div class="card">
     <div class="card-body">
+        <img class="card-img-top" src="~/Policy01.jpg" alt="Card image">
         <h4 class="card-title">@Model.PolicyName</h4>
         <p class="card-text">@Model.PolicyDescription</p>
         <a href="#" class="card-link">@Model.BaseCost</a><br />
-        @Html.HiddenFor(m=>m.PolicyId)
+        @Html.HiddenFor(m => m.PolicyId)
         <a asp-action="ViewPolicy" asp-controller="Policy" asp-route-id="@Model.PolicyId" class="card-link btn btn-primary">View Policy</a>
     </div>
 </div>

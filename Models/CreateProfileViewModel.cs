@@ -1,4 +1,5 @@
 ﻿using InsuranceDLL.DataAccess.DomainModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace InuranceAssignmentAPD03.Models
     public class CreateProfileViewModel : Profile
     {
         public string ProfilePath { get; set; }
-
+        public IFormFile Image { get; set; }
         public bool ASinus { get; set; }
         public bool AHeridataryDeseases { get; set; }
         public bool ADiabeties { get; set; }

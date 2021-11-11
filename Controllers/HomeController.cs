@@ -65,10 +65,10 @@ namespace InuranceAssignmentAPD03.Controllers
 
             List<PostViewModel> posts = new List<PostViewModel>();
 
-            posts.Add(new PostViewModel { Image = "StalkImage.png", Link = "https://google.com", Text = "New Insurance Policy 1!", Title = "Special1" });
-            posts.Add(new PostViewModel { Image = "StalkImage.png", Link = "https://google.com", Text = "New Insurance Policy 2!", Title = "Special2" });
-            posts.Add(new PostViewModel { Image = "StalkImage.png", Link = "https://google.com", Text = "New Insurance Policy 3!", Title = "Special3" });
-            posts.Add(new PostViewModel { Image = "StalkImage.png", Link = "https://google.com", Text = "New Insurance Policy 4!", Title = "Special4" });
+            posts.Add(new PostViewModel { Image = "Policy01.jpg", Link = "https://google.com", Text = "New Insurance Policy Death Cover!", Title = "Death Cover" });
+            posts.Add(new PostViewModel { Image = "Policy01.jpg", Link = "https://google.com", Text = "New Accidental Death Cover !", Title = "Accident Cover" });
+            posts.Add(new PostViewModel { Image = "Add01.jpg", Link = "https://google.com", Text = "Now Desease Cover !", Title = "Disease Cover" });
+            posts.Add(new PostViewModel { Image = "StalkImage.png", Link = "https://google.com", Text = "New Insurance Policy 4 your Family!", Title = "Family Cover" });
 
 
             return View(posts);
