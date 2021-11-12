@@ -75,10 +75,11 @@ namespace InuranceAssignmentAPD03.Controllers
 
             for (int i = 0; i < model.Applications.Count; i++)
             {
-                if ( model.Applications[i] != null && model.Applicants[i] != null)
+                if ( model.Applications[i] != null || model.Applicants[i] != null)
                 {
-
-                    model.ApplicationModels.Add(new ApplicationViewModel(model.SelectedPolicies.FirstOrDefault(m => m.PolicyId == applications.FirstOrDefault(k=>k.UserId == model.Applicants[i].UserId).PolicyId), model.Applications[i], model.Applicants[i]));
+                    var app = applications[i];
+                    var appnt = model.Applicants.FirstOrDefault(m => m.UserId == app.UserId);
+                    model.ApplicationModels.Add(new ApplicationViewModel(model.SelectedPolicies.FirstOrDefault(m => m.PolicyId == applications.FirstOrDefault(k=>k.UserId == appnt.UserId).PolicyId), app, appnt));
 
                 }
 

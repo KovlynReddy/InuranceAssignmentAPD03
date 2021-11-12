@@ -80,17 +80,18 @@
         @Html.HiddenFor(m => m.policy.PolicyId);
         <div class="form-group">
             <label asp-for="ProfileId" class="control-label"></label>
-            @Html.DropDownListFor(m => m.ProfileId, family,new { id = "selectItem" })
+            @Html.DropDownListFor(m => m.ProfileId, family, new { id = "selectItem" })
             <span asp-validation-for="ProfileId" class="text-danger"></span>
         </div>
 
         @*<a href="Policy/GenerateQoute/@Model.policy.PolicyId/@Model.ProfileId">Get a Qoute</a>*@
 
-       <input type="submit" name="name" value="Get The Qoute" />
+        <input type="submit" name="name" value="Get The Qoute" />
     }
 
     <form asp-action="ApplyForPolicy" asp-controller="Policy" asp-route-id="@Model.policy.PolicyId">
-            <input type="submit" name="name" value="Apply" />
+        <input type="submit" name="name" value="Apply" />
     </form>
 
 </div>
+<a class="nav-link text-dark btn btn-primary" asp-area="" asp-controller="Policy" asp-action="Index">+Profile</a>
