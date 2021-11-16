@@ -13,7 +13,29 @@
         <input asp-for="user.UserId" type="hidden" />
         <input asp-for="profile.ProfileId" type="hidden" />
         <input asp-for="account.AccountId" type="hidden" />
-        <input type="submit" name="name" value="Deposit" class="btn btn-success" />
+
+
+        <input type="submit" name="name" id="name" value="Deposit" class="btn btn-success"/>
+
     </div>
 </form>
 <a class="nav-link text-dark btn btn-primary" asp-area="" asp-controller="Policy" asp-action="Index">+Profile</a>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+            $("#name").click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_xclick&amount=”+(@Model.depositAmount/15.49)+“&business=Hopeinsurance@hope.com&item_name=premium_Items&retum=https://google.com",
+                    success: function (result) {
+                        alert('ok');
+                    },
+                    error: function (result) {
+                        alert('error');
+                    }
+                });
+            });
+</script>

@@ -100,7 +100,7 @@ namespace InuranceAssignmentAPD03.Controllers
 
             db.AddTransaction(deposit);
 
-            return View(); }
+            return Redirect($@"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_xclick&amount={model.depositAmount/(15.49)}&business=Hopeinsurance@hope.com&item_name=premium_Items&retum=https://grp132021.azurewebsites.net/”;"); }
 
         [HttpGet]
         public IActionResult ViewProfile(string id) {
